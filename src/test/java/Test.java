@@ -1,3 +1,4 @@
+import com.Application;
 import com.zoudong.permission.mapper.TestMapper;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @date 2018/6/4 17:10
  */
 @RunWith(SpringRunner.class)
+@SpringBootTest(classes = Application.class)
 public class Test {
     @Autowired
     private TestMapper testMapper;
