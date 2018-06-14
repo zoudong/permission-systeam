@@ -6,7 +6,7 @@
     <!-- 数据库驱动 -->
     <!--<classPathEntry location="mysql-connector-java-5.1.46.jar" />-->
     <context id="DB2Tables" targetRuntime="MyBatis3">
-        <!--使用通用mapper来生成代码-->
+        <!--使用通用mapper来生成代码不用手工处理生成的代码与通用mapper兼容继承接口什么的省很多事-->
         <property name="javaFileEncoding" value="UTF-8"/>
         <property name="beginningDelimiter" value="`"/>
         <property name="endingDelimiter" value="`"/>
@@ -37,14 +37,16 @@
 
         <!-- 生成映射文件的包名和位置 -->
         <sqlMapGenerator targetPackage="mybatis"
-                         targetProject="src/main/java">
+                         targetProject="src/main/resources">
             <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
+
         <!-- 生成DAO的包名和位置 -->
         <javaClientGenerator type="XMLMAPPER"
                              targetPackage="com.zoudong.permission.mapper" targetProject="src/main/java">
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
+
 
 
 

@@ -18,7 +18,7 @@ public class Test {
     @org.junit.Test
     public void test(){
         com.zoudong.permission.model.Test test=new com.zoudong.permission.model.Test();
-        test.setTestTest("test");
+        test.setTest("test");
         testMapper.insert(test);
     }
 }
