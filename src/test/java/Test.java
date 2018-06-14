@@ -1,6 +1,6 @@
 import com.Application;
 import com.zoudong.permission.mapper.TestMapper;
-import com.zoudong.permission.service.impl.RedisUtils;
+import com.zoudong.permission.utils.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
