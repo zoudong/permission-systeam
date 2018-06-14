@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
-public class Test {
+public class FrameworkTest {
     @Autowired
     private TestMapper testMapper;
     @Autowired

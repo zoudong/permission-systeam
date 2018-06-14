@@ -13,6 +13,7 @@
 
 
     <properties>
+        <java.version>1.8</java.version>
         <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -131,6 +132,10 @@
                 <spring.redis.host>127.0.0.1</spring.redis.host>
                 <spring.redis.port>6379</spring.redis.port>
                 <spring.redis.password></spring.redis.password>
+
+                <publicKey>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDsy4VQ5DP73X6jCWQJgS21bIX0DJMby+IPjP3J31Feo2jRMRPO8keUJ6ZQmBpyuVFIgSb3uzQ1fDEwl06hH71MBMIzINOMDFTxMUrEgateWmHwjU36hwFuGvYtcSzuXSXm1KMXavG5ABpRWAiocBBaxO/slYV0eOUdcnMkt+VttQIDAQAB</publicKey>
+                <privateKey>MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAOzLhVDkM/vdfqMJZAmBLbVshfQMkxvL4g+M/cnfUV6jaNExE87yR5QnplCYGnK5UUiBJve7NDV8MTCXTqEfvUwEwjMg04wMVPExSsSBq15aYfCNTfqHAW4a9i1xLO5dJebUoxdq8bkAGlFYCKhwEFrE7+yVhXR45R1ycyS35W21AgMBAAECgYEAqTYGXne0bhcpl3fudJxK/Yo/btZNiV94e4RVFxzuGKLNFC/t58RaQhTTVGRdAf5Lh3RDVGQCOvY0cHSvS5RSv8/bWoUlvwRtGsRQKwXZ/S9B2nuUf+6pEQklMnHE9ogqJdKRMB9LbpSYkcPT0qN8WA2i6BVLW6LsEx6lTJri7AECQQD9xDafqvTFqp02etxi2QiNklbjIcFdz4cexYe3kwm1LAj+A/E1QC2dbrG+AHoDfyZjVZ2CzNnJ+wzSUgS0nA7RAkEA7uEROuzrW8PIpU1q7hQAj9sBJVL+SDHRBSoconiGY2cHk1NOLVJPeV8PT08qL5yvvCctnjQYSZd32+g2qhQRpQJAVgTX20Gw3PwbdGcrI1qcOpj7WNyNVkZNcBHXElQGO2Jk3e3qKnnJvI7UMyqoMV09XvibfsX/oSa3Tue8bphjsQJATuByWAqzDHHxZuPRUxu3s8iU8EYfQKdyZUoqelthxKDYl4UCY2SyaVlCLOXvABm0zWQCZCK/gk1JfouGwVIvIQJBAKE/Mle+fBE4+XiD+i0qOcsgvNHjHDcXu09pe1wmUrQJMAQYZaczAmR42x5RVovysFN4wH/1cz2kOK9c0pQsaeI=</privateKey>
+
             </properties>
         </profile>
     </profiles>
@@ -170,6 +175,28 @@
                     </dependency>
                 </dependencies>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <useDefaultDelimiters>false</useDefaultDelimiters>
+                    <delimiters>
+                        <delimiter>${*}</delimiter>
+                    </delimiters>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
 
 
 
