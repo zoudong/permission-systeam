@@ -1,8 +1,9 @@
 package com.zoudong.permission.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
-public class Test {
+public class Test implements Serializable{
     @Id
     private Long id;
 
