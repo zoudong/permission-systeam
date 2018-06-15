@@ -19,18 +19,26 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <commons.lang3.version>3.6</commons.lang3.version>
-        <java-jwt.version>2.2.0</java-jwt.version>
+        <jjwt.version>0.9.0</jjwt.version>
         <lombok.version>1.16.10</lombok.version>
         <tk.mybatis.version>2.0.2</tk.mybatis.version>
         <pagehelper.version>1.2.3</pagehelper.version>
         <fastjson.version>1.2.22</fastjson.version>
         <mysql-connector-java.version>5.1.46</mysql-connector-java.version>
         <druid-spring-boot-starter.version>1.1.10</druid-spring-boot-starter.version>
+
+        <shiro.version>1.4.0</shiro.version>
     </properties>
 
 
     <dependencies>
-
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -88,9 +96,9 @@
             <version>${fastjson.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
-            <version>${java-jwt.version}</version>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jjwt.version}</version>
         </dependency>
 
         <dependency>
@@ -117,6 +125,25 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <!--shiro-->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+
+
 
     </dependencies>
 
