@@ -11,6 +11,7 @@ public class BaseResult implements Serializable {
     private String code= ResultCode.succes.getCode();
     private String msg=ResultCode.succes.getMsg();
     private Object data=null;
+    private long time;
     public BaseResult(){
 
     }

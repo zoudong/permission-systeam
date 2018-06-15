@@ -1,4 +1,4 @@
-package com.zoudong.permission.controller.base;
+package com.zoudong.permission.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.zoudong.permission.exception.BusinessException;
