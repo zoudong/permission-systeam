@@ -143,7 +143,11 @@
             <version>${shiro.version}</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>org.crazycake</groupId>
+            <artifactId>shiro-redis</artifactId>
+            <version>3.1.0</version>
+        </dependency>
 
     </dependencies>
 

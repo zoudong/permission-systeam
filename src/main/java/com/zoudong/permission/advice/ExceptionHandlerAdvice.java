@@ -3,6 +3,8 @@ package com.zoudong.permission.advice;
 import com.zoudong.permission.exception.BusinessException;
 import com.zoudong.permission.result.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.UnauthenticatedException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -20,6 +22,13 @@ public class ExceptionHandlerAdvice {
     @ExceptionHandler(value = Exception.class)
     public Object MethodArgumentNotValidHandler(HttpServletRequest request,
                                                 Exception e) throws Exception {
+
+        if (e instanceof UnauthenticatedException) {
+            ResultUtil.fillErrorMsg("token_error", "token错误");
+        } else if (e instanceof UnauthorizedException) {
+            ResultUtil.fillErrorMsg("permission_error", "用户无权限");
+        }
+
         if (e instanceof BusinessException) {
             BusinessException businessException = (BusinessException) e;
             log.info("业务异常:{}", e.getMessage());
