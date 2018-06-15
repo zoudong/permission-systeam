@@ -25,6 +25,7 @@ public class TestImpl implements TestApi {
 
     public PageInfo<com.zoudong.permission.model.Test> test() throws Exception {
         throw new BusinessException("business_error","业务异常主动测试");
+        //throw new Exception("业务异常主动测试");
         /*PageHelper.startPage(1,2,true,true,false);
         List<com.zoudong.permission.model.Test> testList = testMapper.selectAll();
         PageInfo<com.zoudong.permission.model.Test> pageInfo = new PageInfo<com.zoudong.permission.model.Test>(testList);

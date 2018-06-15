@@ -23,7 +23,7 @@ public class ResultUtil {
         BaseResult baseResult=new BaseResult();
         baseResult.setCode(ResultCode.error.getCode());
         baseResult.setMsg(ResultCode.error.getMsg());
-        return new BaseResult();
+        return baseResult;
     }
     /**
      * 成功带数据
