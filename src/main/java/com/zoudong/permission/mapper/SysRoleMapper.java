@@ -1,9 +1,9 @@
 package com.zoudong.permission.mapper;
 
 import com.zoudong.config.CommonMapper;
-import com.zoudong.permission.model.Test;
+import com.zoudong.permission.model.SysRole;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TestMapper extends CommonMapper<Test> {
+public interface SysRoleMapper extends CommonMapper<SysRole> {
 }

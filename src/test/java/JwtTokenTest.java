@@ -1,7 +1,6 @@
 import com.Application;
 import com.alibaba.fastjson.JSONObject;
 import com.zoudong.permission.constant.JwtConstant;
-import com.zoudong.permission.mapper.TestMapper;
 import com.zoudong.permission.utils.EhcacheUtil;
 import com.zoudong.permission.utils.RedisUtils;
 import com.zoudong.permission.utils.jwt.JwtUtil;

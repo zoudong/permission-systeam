@@ -1,5 +1,6 @@
 import com.Application;
-import com.zoudong.permission.mapper.TestMapper;
+import com.zoudong.permission.mapper.SysUserMapper;
+import com.zoudong.permission.model.SysUser;
 import com.zoudong.permission.utils.EhcacheUtil;
 import com.zoudong.permission.utils.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -21,15 +22,16 @@ import java.util.concurrent.TimeUnit;
 @SpringBootTest(classes = Application.class)
 public class FrameworkTest {
     @Autowired
-    private TestMapper testMapper;
+    private SysUserMapper sysUserMapper;
     @Autowired
     private RedisUtils redisUtils;
 
     @org.junit.Test
     public void testMybatis() {
-        com.zoudong.permission.model.Test test = new com.zoudong.permission.model.Test();
-        test.setTest("test");
-        testMapper.insert(test);
+        SysUser sysUser = new SysUser();
+        sysUser.setAccount("test");
+        sysUser.setPassword("test");
+        sysUserMapper.insert(sysUser);
     }
 
     @org.junit.Test
@@ -44,10 +46,10 @@ public class FrameworkTest {
         } else {
             //从DB中获取信息
             log.info("从数据库中获取数据");
-            List<com.zoudong.permission.model.Test> tests = testMapper.selectAll();
+            List<SysUser> sysUsers = sysUserMapper.selectAll();
             //数据插入缓存（set中的参数含义：key值，user对象，缓存存在时间10（long类型），时间单位）
-            redisUtils.set(key, tests, 10L, TimeUnit.SECONDS);
-            log.info("数据插入缓存" + tests.toString());
+            redisUtils.set(key, sysUsers, 10L, TimeUnit.SECONDS);
+            log.info("数据插入缓存" + sysUsers.toString());
         }
 
     }
@@ -57,7 +59,7 @@ public class FrameworkTest {
     public void testEhcache() {
         String key = "zoudong";
         //如果缓存存在
-        List<com.zoudong.permission.model.Test> tests = testMapper.selectAll();
+        List<SysUser> tests = sysUserMapper.selectAll();
         EhcacheUtil.getInstance().put("permission", key, tests);
         if (EhcacheUtil.getInstance().get("permission", key) != null) {
             Object value = EhcacheUtil.getInstance().get("permission", key);

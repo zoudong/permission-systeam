@@ -2,8 +2,10 @@ package com.zoudong.permission.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.zoudong.permission.exception.BusinessException;
+import com.zoudong.permission.model.SysUser;
+import com.zoudong.permission.param.user.query.QuerySysUserParam;
 import com.zoudong.permission.result.ResultUtil;
-import com.zoudong.permission.service.api.TestApi;
+import com.zoudong.permission.service.api.SysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,16 +22,16 @@ import javax.validation.Valid;
  */
 @Slf4j
 @RestController
-public class Test {
+public class SysUserController {
     @Autowired
-    private TestApi testApi;
+    private SysUserService sysUserService;
 
-    @RequestMapping(value = "/permission/test", method = RequestMethod.POST)
-    public Object test(@Valid @RequestBody com.zoudong.permission.model.Test test)throws Exception {
+    @RequestMapping(value = "/permission/querySysUserByPage", method = RequestMethod.POST)
+    public Object test(@Valid @RequestBody QuerySysUserParam querySysUserParam)throws Exception {
        /* try {*/
-            log.info("开始test:{}", test);
-            PageInfo<com.zoudong.permission.model.Test> pageInfo = testApi.test();
-            log.info("结束test:{}", pageInfo);
+            log.info("开始分页查询全部用户:{}", querySysUserParam);
+            PageInfo<SysUser> pageInfo = sysUserService.queryAllSysUser(querySysUserParam);
+            log.info("结束分页查询全部用户:{}", pageInfo);
             return ResultUtil.fillSuccesData(pageInfo);
        /* } catch (BusinessException e) {
             log.info("业务异常test:{}", e.getMessage());
