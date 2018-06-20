@@ -3,6 +3,7 @@ package com.zoudong.permission.controller;
 import com.github.pagehelper.PageInfo;
 import com.zoudong.permission.exception.BusinessException;
 import com.zoudong.permission.model.SysUser;
+import com.zoudong.permission.param.user.login.SysUserLoginParam;
 import com.zoudong.permission.param.user.query.QuerySysUserParam;
 import com.zoudong.permission.result.ResultUtil;
 import com.zoudong.permission.service.api.SysUserService;
@@ -31,16 +32,15 @@ public class SysUserController {
     @RequestMapping(value = "/unAuth")
     @ResponseBody
     public Object unauth() {
-        throw new BusinessException("unAuth","token认证失败");
+        throw new BusinessException("unAuth","token认证失败,请重新登录。");
     }
-
     @RequestMapping(value = "/permission/querySysUserByPage", method = RequestMethod.POST)
     public Object test(@Valid @RequestBody QuerySysUserParam querySysUserParam)throws Exception {
        /* try {*/
-            log.info("开始分页查询全部用户:{}", querySysUserParam);
-            PageInfo<SysUser> pageInfo = sysUserService.queryAllSysUser(querySysUserParam);
-            log.info("结束分页查询全部用户:{}", pageInfo);
-            return ResultUtil.fillSuccesData(pageInfo);
+        log.info("开始分页查询全部用户:{}", querySysUserParam);
+        PageInfo<SysUser> pageInfo = sysUserService.queryAllSysUser(querySysUserParam);
+        log.info("结束分页查询全部用户:{}", pageInfo);
+        return ResultUtil.fillSuccesData(pageInfo);
        /* } catch (BusinessException e) {
             log.info("业务异常test:{}", e.getMessage());
             e.printStackTrace();
@@ -51,4 +51,16 @@ public class SysUserController {
             return ResultUtil.error();
         }*/
     }
+    @RequestMapping(value = "/permission/apiLogin", method = RequestMethod.POST)
+    public Object apiLogin(@Valid @RequestBody SysUserLoginParam sysUserLoginParam)throws Exception {
+        log.info("开始用户API接口登录:{}", sysUserLoginParam);
+        String jwtToken = sysUserService.apiLogin(sysUserLoginParam);
+        log.info("结束用户API接口登录:{}", jwtToken);
+        return ResultUtil.fillSuccesData(jwtToken);
+
+    }
+
+
+
+
 }

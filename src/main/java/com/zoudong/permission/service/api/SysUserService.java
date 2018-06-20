@@ -2,6 +2,7 @@ package com.zoudong.permission.service.api;
 
 import com.github.pagehelper.PageInfo;
 import com.zoudong.permission.model.SysUser;
+import com.zoudong.permission.param.user.login.SysUserLoginParam;
 import com.zoudong.permission.param.user.query.QuerySysUserParam;
 
 /**
@@ -11,4 +12,6 @@ import com.zoudong.permission.param.user.query.QuerySysUserParam;
  */
 public interface SysUserService {
     PageInfo<SysUser> queryAllSysUser(QuerySysUserParam querySysUserParam) throws Exception;
+
+    String apiLogin(SysUserLoginParam sysUserLoginParam) throws Exception;
 }
