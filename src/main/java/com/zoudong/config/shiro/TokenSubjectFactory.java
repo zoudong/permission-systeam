@@ -1,4 +1,4 @@
-package com.zoudong.permission.utils.shiro;
+package com.zoudong.config.shiro;
 
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.subject.SubjectContext;

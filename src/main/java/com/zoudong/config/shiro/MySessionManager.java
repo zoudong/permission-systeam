@@ -1,4 +1,4 @@
-package com.zoudong.permission.utils.shiro;
+package com.zoudong.config.shiro;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;

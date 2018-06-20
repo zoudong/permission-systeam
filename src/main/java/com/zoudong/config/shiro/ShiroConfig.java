@@ -1,4 +1,4 @@
-package com.zoudong.permission.utils.shiro;
+package com.zoudong.config.shiro;
 
 import com.zoudong.permission.advice.ExceptionHandlerAdvice;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
