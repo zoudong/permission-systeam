@@ -11,7 +11,7 @@
         <property name="beginningDelimiter" value="`"/>
         <property name="endingDelimiter" value="`"/>
         <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
-            <property name="mappers" value="com.zoudong.config.CommonMapper"/>
+            <property name="mappers" value="com.zoudong.permission.config.CommonMapper"/>
         </plugin>
 
 

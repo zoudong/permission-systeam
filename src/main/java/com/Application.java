@@ -20,7 +20,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableScheduling
 @EnableTransactionManagement
 @MapperScan("com.zoudong.permission.mapper")
-@ComponentScan(basePackages = {"com.zoudong.permission"})
+@ComponentScan(basePackages = {"com.zoudong.permission", "com.zoudong.permission.config"})
 @SpringBootApplication
 @EnableAutoConfiguration
 public class Application {

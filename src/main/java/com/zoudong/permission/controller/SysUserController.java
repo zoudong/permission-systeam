@@ -8,12 +8,10 @@ import com.zoudong.permission.result.ResultUtil;
 import com.zoudong.permission.service.api.SysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 /**
  * @author zd
@@ -25,6 +23,16 @@ import javax.validation.Valid;
 public class SysUserController {
     @Autowired
     private SysUserService sysUserService;
+
+    /**
+     * 未登录，shiro应重定向到登录界面，此处返回未登录状态信息由前端控制跳转页面
+     * @return
+     */
+    @RequestMapping(value = "/unAuth")
+    @ResponseBody
+    public Object unauth() {
+        throw new BusinessException("unAuth","token认证失败");
+    }
 
     @RequestMapping(value = "/permission/querySysUserByPage", method = RequestMethod.POST)
     public Object test(@Valid @RequestBody QuerySysUserParam querySysUserParam)throws Exception {

@@ -1,4 +1,4 @@
-package com.zoudong.config;
+package com.zoudong.permission.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

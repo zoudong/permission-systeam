@@ -1,4 +1,4 @@
-package com.zoudong.config.shiro;
+package com.zoudong.permission.config.shiro;
 
 import com.zoudong.permission.mapper.*;
 import com.zoudong.permission.model.*;
