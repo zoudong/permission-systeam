@@ -1,6 +1,7 @@
 package com.zoudong.permission.config.shiro;
 
 import com.zoudong.permission.advice.ExceptionHandlerAdvice;
+import com.zoudong.permission.config.shiro.filter.AccessTokenFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.session.mgt.SessionManager;
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.apache.shiro.mgt.SecurityManager;
+
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 @Slf4j
@@ -32,6 +35,13 @@ public class ShiroConfig {
         log.info("开始进入shiro Filter");
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();  
         shiroFilterFactoryBean.setSecurityManager(securityManager);
+
+
+        // 自定义过滤器
+        Map<String, Filter> filterMap = shiroFilterFactoryBean.getFilters();
+        filterMap.put("accessTokenFilter", new AccessTokenFilter());
+        shiroFilterFactoryBean.setFilters(filterMap);
+
 
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
         filterChainDefinitionMap.put("/permission/querySysUserByPage", "authc");
@@ -110,7 +120,8 @@ public class ShiroConfig {
         securityManager.setSessionManager(sessionManager());  
         // 自定义缓存实现 使用redis  
         securityManager.setCacheManager(redisCacheManager());//这儿注意不要被重名
-        return securityManager;  
+
+        return securityManager;
     }
 
   

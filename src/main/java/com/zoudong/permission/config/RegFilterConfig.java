@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
  * @date 2018/6/20 14:52
  */
 @Configuration
-public class Filter {
-    /*@Bean
+public class RegFilterConfig {
+/*    @Bean
     public FilterRegistrationBean myFilter() {
         FilterRegistrationBean myFilter = new FilterRegistrationBean();
         myFilter.addUrlPatterns("/*");
