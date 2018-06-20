@@ -1,2 +1,2 @@
 # permission-systeam
-mvn mybatis-generator:generate
+this is a 分布式权限系统……
