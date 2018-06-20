@@ -1,6 +1,7 @@
 package com.zoudong.permission.model;
 
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 @Table(name = "sys_user")
@@ -52,11 +53,6 @@ public class SysUser {
      */
     private String phone;
 
-    /**
-     * 角色id
-     */
-    @Column(name = "role_id")
-    private Long roleId;
 
     /**
      * 部门id
@@ -86,11 +82,25 @@ public class SysUser {
      */
     private Long version;
 
+    @Transient
+    private List<SysRole> roleList;
+
+
     /**
      * 用户类型
      */
     @Column(name = "user_type")
     private Integer userType;
+
+    public List<SysRole> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<SysRole> roleList) {
+        this.roleList = roleList;
+    }
+
+
 
     /**
      * 获取主键id
@@ -254,23 +264,7 @@ public class SysUser {
         this.phone = phone;
     }
 
-    /**
-     * 获取角色id
-     *
-     * @return role_id - 角色id
-     */
-    public Long getRoleId() {
-        return roleId;
-    }
 
-    /**
-     * 设置角色id
-     *
-     * @param roleId 角色id
-     */
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
 
     /**
      * 获取部门id

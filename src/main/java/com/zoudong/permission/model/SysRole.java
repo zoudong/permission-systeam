@@ -1,6 +1,7 @@
 package com.zoudong.permission.model;
 
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 @Table(name = "sys_role")
@@ -24,6 +25,12 @@ public class SysRole {
     private String roleName;
 
     /**
+     * 角色名称
+     */
+    @Column(name = "role_code")
+    private String roleCode;
+
+    /**
      * 角色描述
      */
     @Column(name = "role_description")
@@ -45,6 +52,26 @@ public class SysRole {
      */
     @Column(name = "update_time")
     private Date updateTime;
+
+    public String getRoleCode() {
+        return roleCode;
+    }
+
+    public void setRoleCode(String roleCode) {
+        this.roleCode = roleCode;
+    }
+
+    @Transient
+    private List<SysPermission> sysPermissions;
+
+
+    public List<SysPermission> getSysPermissions() {
+        return sysPermissions;
+    }
+
+    public void setSysPermissions(List<SysPermission> sysPermissions) {
+        this.sysPermissions = sysPermissions;
+    }
 
     /**
      * 获取主键id

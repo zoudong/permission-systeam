@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 15/06/2018 17:32:24
+ Date: 20/06/2018 11:45:25
 */
 
 SET NAMES utf8mb4;
@@ -120,7 +120,6 @@ CREATE TABLE `sys_user`  (
   `sex` int(11) NULL DEFAULT NULL COMMENT '性别（1：男 2：女）',
   `email` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电子邮件',
   `phone` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电话',
-  `role_id` bigint(255) NULL DEFAULT NULL COMMENT '角色id',
   `dept_id` bigint(11) NULL DEFAULT NULL COMMENT '部门id',
   `status` int(11) NULL DEFAULT NULL COMMENT '状态(1：启用  2：冻结  3：删除）',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
@@ -129,5 +128,19 @@ CREATE TABLE `sys_user`  (
   `user_type` int(255) NULL DEFAULT NULL COMMENT '用户类型',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户主表、子表暂无' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for sys_user_role
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_role`;
+CREATE TABLE `sys_user_role`  (
+  `id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `role_id` bigint(20) NOT NULL,
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `version` bigint(11) NULL DEFAULT NULL COMMENT '乐观锁版本号',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色权限关联表' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

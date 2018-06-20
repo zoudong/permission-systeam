@@ -14,7 +14,6 @@
     <result column="sex" jdbcType="INTEGER" property="sex" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="role_id" jdbcType="BIGINT" property="roleId" />
     <result column="dept_id" jdbcType="BIGINT" property="deptId" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -26,7 +25,7 @@
     <!--
       WARNING - @mbg.generated
     -->
-    id, account, password, header, real_name, birthday, sex, email, phone, role_id, dept_id, 
+    id, account, password, header, real_name, birthday, sex, email, phone, dept_id,
     status, create_time, update_time, version, user_type
   </sql>
 </mapper>
