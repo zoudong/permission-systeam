@@ -22,7 +22,10 @@ import java.util.List;
 @Slf4j
 @Component
 public class MyShiroRealm extends AuthorizingRealm {
-
+    public boolean supports(AuthenticationToken token) {
+        //仅支持JwtAuthenticationToken类型的Token
+        return token instanceof JwtAuthenticationToken;
+    }
     @Autowired
     private SysUserMapper sysUserMapper;
 
@@ -73,6 +76,7 @@ public class MyShiroRealm extends AuthorizingRealm {
             throws AuthenticationException {
         //获取用户的输入的账号.
         String account = (String) token.getPrincipal();
+
         if (account == null) {
             log.info("shiro Realm获取用户名失败！");
             return null;
@@ -140,9 +144,8 @@ public class MyShiroRealm extends AuthorizingRealm {
         userInfo.setRoleList(sysRoles);
 
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                userInfo, //用户信息
-                userInfo.getPassword(), //密码  
-                ByteSource.Util.bytes(userInfo.getAccount()),//salt=username+salt
+                token.getPrincipal(), //用户信息
+                token.getCredentials(), //密码
                 getName()  //realm name  
         );
         return authenticationInfo;

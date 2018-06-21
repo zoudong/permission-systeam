@@ -4,6 +4,9 @@ import com.zoudong.permission.advice.ExceptionHandlerAdvice;
 import com.zoudong.permission.config.shiro.filter.AccessTokenFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
+import org.apache.shiro.mgt.DefaultSubjectDAO;
+import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -74,8 +77,9 @@ public class ShiroConfig {
   
     @Bean  
     public MyShiroRealm myShiroRealm() {  
-        MyShiroRealm myShiroRealm = new MyShiroRealm();  
-        myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());  
+        MyShiroRealm myShiroRealm = new MyShiroRealm();
+        //暂时不加密
+        /*myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());  */
         return myShiroRealm;  
     }
     /**
@@ -107,6 +111,8 @@ public class ShiroConfig {
     @Bean
     public SessionManager sessionManager() {
         MySessionManager mySessionManager = new MySessionManager();
+        //shiro无状态设置
+        mySessionManager.setSessionValidationSchedulerEnabled(false);
         mySessionManager.setSessionDAO(redisSessionDAO());
         return mySessionManager;
     }
@@ -121,6 +127,8 @@ public class ShiroConfig {
         securityManager.setCacheManager(redisCacheManager());//这儿注意不要被重名
 
         securityManager.setSubjectFactory(new TokenSubjectFactory());
+        //应对 无状态currentUser.getSession()==null;
+        ((DefaultSessionStorageEvaluator)((DefaultSubjectDAO)securityManager.getSubjectDAO()).getSessionStorageEvaluator()).setSessionStorageEnabled(false);
 
         return securityManager;
     }

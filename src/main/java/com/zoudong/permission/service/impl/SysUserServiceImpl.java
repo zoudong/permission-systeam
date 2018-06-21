@@ -3,6 +3,7 @@ package com.zoudong.permission.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.zoudong.permission.config.shiro.JwtAuthenticationToken;
 import com.zoudong.permission.constant.JwtConstant;
 import com.zoudong.permission.exception.BusinessException;
 import com.zoudong.permission.mapper.SysUserMapper;
@@ -42,9 +43,8 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public String apiLogin(SysUserLoginParam sysUserLoginParam) throws Exception {
-        //shiro进行登录验证
-        SecurityUtils.getSubject().login(new UsernamePasswordToken(sysUserLoginParam.getAccount(),sysUserLoginParam.getPassword()));
-        String account =(String)SecurityUtils.getSubject().getPrincipal();
+
+        String account =sysUserLoginParam.getAccount();
         //登录成功后签发token
         if (account == null) {
             log.info("shiro Realm获取用户名失败！");
@@ -63,6 +63,11 @@ public class SysUserServiceImpl implements SysUserService {
         jo.put("account", userInfo.getAccount());
 
         String token=jwtUtil.createJWT(jwtUtil.generalKey().toString(),jo.toJSONString(), JwtConstant.JWT_TTL);
+
+
+        //shiro进行登录验证
+        SecurityUtils.getSubject().login(new JwtAuthenticationToken(account,token));
+
         return token;
     }
 }
