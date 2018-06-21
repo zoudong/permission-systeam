@@ -44,13 +44,12 @@ public class ShiroConfig {
 
 
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
-        filterChainDefinitionMap.put("/permission/querySysUserByPage", "authc");
-
-        filterChainDefinitionMap.put("/logout", "logout");
+        filterChainDefinitionMap.put("/permission/querySysUserByPage", "accessTokenFilter");
+        //accessTokenFilter代替默认的authc不然后DisabledSessionException
+        filterChainDefinitionMap.put("/permission/logout", "logout");
+        filterChainDefinitionMap.put("/permission/apiLogin", "anon");
         filterChainDefinitionMap.put("/static/**", "anon");
-        filterChainDefinitionMap.put("/ajaxLogin", "anon");  
-        filterChainDefinitionMap.put("/login", "anon");  
-        filterChainDefinitionMap.put("/**", "authc");
+        filterChainDefinitionMap.put("/**", "accessTokenFilter");
 
         shiroFilterFactoryBean.setLoginUrl("/unAuth");
 
@@ -120,6 +119,8 @@ public class ShiroConfig {
         securityManager.setSessionManager(sessionManager());  
         // 自定义缓存实现 使用redis  
         securityManager.setCacheManager(redisCacheManager());//这儿注意不要被重名
+
+        securityManager.setSubjectFactory(new TokenSubjectFactory());
 
         return securityManager;
     }

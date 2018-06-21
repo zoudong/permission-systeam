@@ -34,7 +34,6 @@ public class AccessTokenFilter extends AccessControlFilter {
 
     @Override
     protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
-
         return false;
     }
 

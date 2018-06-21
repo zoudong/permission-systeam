@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TokenSubjectFactory extends DefaultWebSubjectFactory {
-
     public Subject createSubject(SubjectContext context) {
         //不创建 session
         context.setSessionCreationEnabled(false);
