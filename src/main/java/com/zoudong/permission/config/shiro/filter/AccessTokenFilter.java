@@ -1,6 +1,7 @@
 package com.zoudong.permission.config.shiro.filter;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.filter.authz.AuthorizationFilter;
 import sun.misc.BASE64Decoder;
@@ -8,6 +9,8 @@ import sun.misc.BASE64Decoder;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Slf4j
 public class AccessTokenFilter extends AccessControlFilter {
@@ -18,7 +21,7 @@ public class AccessTokenFilter extends AccessControlFilter {
                 && getSubject(servletRequest, servletResponse).isAuthenticated()) {
             return true;
         }
-        return false;
+        //return false;
        /* HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         String auth = (String) httpServletRequest.getAttribute("Authorization");
         System.out.println("auth encoded in base64 is " + getFromBASE64(auth));
@@ -30,10 +33,13 @@ public class AccessTokenFilter extends AccessControlFilter {
         } else {
             return false;
         }*/
+       return false;
     }
+
 
     @Override
     protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
+
         return false;
     }
 

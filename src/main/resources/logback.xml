@@ -59,7 +59,7 @@
     </appender>
     <logger name="com.log.agent" level="DEBUG" />
     <logger name="com.log" level="INFO" />
-    <logger name="org.apache.shiro" level="INFO" />
+    <logger name="org.apache.shiro" level="DEBUG" />
     <root level="INFO">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="RollingFile" />

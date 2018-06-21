@@ -29,7 +29,7 @@ public class SysUserController {
      * 未登录，shiro应重定向到登录界面，此处返回未登录状态信息由前端控制跳转页面
      * @return
      */
-    @RequestMapping(value = "/unAuth")
+    @RequestMapping(value = "/permission/unAuth")
     @ResponseBody
     public Object unauth() {
         throw new BusinessException("unAuth","token认证失败,请重新登录。");

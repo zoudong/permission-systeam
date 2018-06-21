@@ -11,6 +11,7 @@ import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.SimpleCookie;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
 import org.crazycake.shiro.RedisSessionDAO;
@@ -39,6 +40,7 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();  
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
+        shiroFilterFactoryBean.setLoginUrl("/permission/unAuth");
 
         // 自定义过滤器
         Map<String, Filter> filterMap = shiroFilterFactoryBean.getFilters();
@@ -47,14 +49,15 @@ public class ShiroConfig {
 
 
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
-        filterChainDefinitionMap.put("/permission/querySysUserByPage", "accessTokenFilter");
+        //filterChainDefinitionMap.put("/permission/querySysUserByPage", "accessTokenFilter");
         //accessTokenFilter代替默认的authc不然后DisabledSessionException
         filterChainDefinitionMap.put("/permission/logout", "logout");
         filterChainDefinitionMap.put("/permission/apiLogin", "anon");
+        filterChainDefinitionMap.put("/permission/unAuth", "anon");
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/**", "accessTokenFilter");
 
-        shiroFilterFactoryBean.setLoginUrl("/unAuth");
+
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);  
         return shiroFilterFactoryBean;  
@@ -112,13 +115,14 @@ public class ShiroConfig {
     public SessionManager sessionManager() {
         MySessionManager mySessionManager = new MySessionManager();
         //shiro无状态设置
+        //mySessionManager.setGlobalSessionTimeout(3600000);
         mySessionManager.setSessionValidationSchedulerEnabled(false);
         mySessionManager.setSessionDAO(redisSessionDAO());
         return mySessionManager;
     }
 
     @Bean  
-    public SecurityManager securityManager() {  
+    public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(myShiroRealm());  
         // 自定义session管理 使用redis  
@@ -127,6 +131,7 @@ public class ShiroConfig {
         securityManager.setCacheManager(redisCacheManager());//这儿注意不要被重名
 
         securityManager.setSubjectFactory(new TokenSubjectFactory());
+
         //应对 无状态currentUser.getSession()==null;
         ((DefaultSessionStorageEvaluator)((DefaultSubjectDAO)securityManager.getSubjectDAO()).getSessionStorageEvaluator()).setSessionStorageEnabled(false);
 
