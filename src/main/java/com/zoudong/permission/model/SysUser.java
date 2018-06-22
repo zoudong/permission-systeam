@@ -1,11 +1,14 @@
 package com.zoudong.permission.model;
 
+import org.crazycake.shiro.AuthCachePrincipal;
+
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import javax.persistence.*;
 
 @Table(name = "sys_user")
-public class SysUser {
+public class SysUser implements AuthCachePrincipal{
     /**
      * 主键id
      */
@@ -372,5 +375,10 @@ public class SysUser {
      */
     public void setUserType(Integer userType) {
         this.userType = userType;
+    }
+
+    @Override
+    public String getAuthCacheKey() {
+        return UUID.randomUUID().toString();
     }
 }

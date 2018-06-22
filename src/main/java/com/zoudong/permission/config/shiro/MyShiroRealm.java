@@ -26,6 +26,14 @@ public class MyShiroRealm extends AuthorizingRealm {
         //仅支持JwtAuthenticationToken类型的Token
         return token instanceof JwtAuthenticationToken;
     }
+
+    public MyShiroRealm() {
+       /* // 认证
+        super.setAuthenticationCachingEnabled(true);
+        // 授权
+        super.setAuthorizationCacheName("test");*/
+    }
+
     @Autowired
     private SysUserMapper sysUserMapper;
 
@@ -144,7 +152,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         userInfo.setRoleList(sysRoles);
 
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                token.getPrincipal(), //用户信息
+                userInfo, //用户信息
                 token.getCredentials(), //密码
                 getName()  //realm name  
         );

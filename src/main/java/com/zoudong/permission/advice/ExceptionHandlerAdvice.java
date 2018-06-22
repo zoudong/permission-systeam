@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 @ResponseBody
 public class ExceptionHandlerAdvice {
     @ExceptionHandler(value = Exception.class)
-    public Object MethodArgumentNotValidHandler(HttpServletRequest request,
+    public Object ExceptionHandler(HttpServletRequest request,
                                                 Exception e) throws Exception {
 
         if (e instanceof UnauthenticatedException) {
@@ -50,7 +50,7 @@ public class ExceptionHandlerAdvice {
             return ResultUtil.fillErrorMsg("param_error",
                     "参数异常:" + ((MissingServletRequestParameterException) e).getParameterName() + "不能为空！");
         }
-
+        e.printStackTrace();
         return ResultUtil.error();
     }
 }
