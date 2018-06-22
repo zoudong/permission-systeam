@@ -50,7 +50,7 @@ public class AccessTokenFilter extends AccessControlFilter {
 
     @Override
     protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
-        /*JwtAuthenticationToken token = createToken(servletRequest, servletResponse);
+        JwtAuthenticationToken token = createToken(servletRequest, servletResponse);
         try {
             Subject subject = getSubject(servletRequest, servletResponse);
             subject.login(token);//认证
@@ -58,7 +58,7 @@ public class AccessTokenFilter extends AccessControlFilter {
         } catch (AuthenticationException e) {//认证失败，发送401状态并附带异常信息
             log.error(e.getMessage(),e);
             WebUtils.toHttp(servletResponse).sendError(HttpServletResponse.SC_UNAUTHORIZED,e.getMessage());
-        }*/
+        }
 
         return false;
     }

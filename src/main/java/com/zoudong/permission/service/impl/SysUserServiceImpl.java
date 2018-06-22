@@ -33,18 +33,19 @@ public class SysUserServiceImpl implements SysUserService {
     private SysUserMapper sysUserMapper;
     @Autowired
     private JwtUtil jwtUtil;
+
     @Override
     public PageInfo<SysUser> queryAllSysUser(QuerySysUserParam querySysUserParam) throws Exception {
-        PageHelper.startPage(querySysUserParam.getPageNum(),querySysUserParam.getPageSize());
-        List<SysUser> sysUserList=sysUserMapper.selectAll();
-        PageInfo<SysUser> pageInfo=new PageInfo<>(sysUserList);
+        PageHelper.startPage(querySysUserParam.getPageNum(), querySysUserParam.getPageSize());
+        List<SysUser> sysUserList = sysUserMapper.selectAll();
+        PageInfo<SysUser> pageInfo = new PageInfo<>(sysUserList);
         return pageInfo;
     }
 
     @Override
     public String apiLogin(SysUserLoginParam sysUserLoginParam) throws Exception {
 
-        String account =sysUserLoginParam.getAccount();
+        String account = sysUserLoginParam.getAccount();
         //登录成功后签发token
         if (account == null) {
             log.info("shiro Realm获取用户名失败！");
@@ -62,12 +63,7 @@ public class SysUserServiceImpl implements SysUserService {
         jo.put("userId", userInfo.getId());
         jo.put("account", userInfo.getAccount());
 
-        String token=jwtUtil.createJWT(jwtUtil.generalKey().toString(),jo.toJSONString(), JwtConstant.JWT_TTL);
-
-
-        //shiro进行登录验证
-        SecurityUtils.getSubject().login(new JwtAuthenticationToken(account,token));
-
+        String token = jwtUtil.createJWT(jwtUtil.generalKey().toString(), jo.toJSONString(), JwtConstant.JWT_TTL);
         return token;
     }
 }

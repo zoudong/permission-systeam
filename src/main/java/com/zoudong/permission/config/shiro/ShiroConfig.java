@@ -133,7 +133,7 @@ public class ShiroConfig {
         securityManager.setSubjectFactory(new TokenSubjectFactory());
 
         //应对 无状态currentUser.getSession()==null;
-        ((DefaultSessionStorageEvaluator)((DefaultSubjectDAO)securityManager.getSubjectDAO()).getSessionStorageEvaluator()).setSessionStorageEnabled(false);
+        ((DefaultSessionStorageEvaluator)((DefaultSubjectDAO)securityManager.getSubjectDAO()).getSessionStorageEvaluator()).setSessionStorageEnabled(false);//false
 
         return securityManager;
     }
