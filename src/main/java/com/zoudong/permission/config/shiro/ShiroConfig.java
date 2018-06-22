@@ -124,7 +124,7 @@ public class ShiroConfig {
     @Bean  
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(myShiroRealm());  
+        securityManager.setRealm(myShiroRealm());
         // 自定义session管理 使用redis  
         securityManager.setSessionManager(sessionManager());  
         // 自定义缓存实现 使用redis  

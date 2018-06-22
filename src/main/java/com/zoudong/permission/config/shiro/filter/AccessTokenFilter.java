@@ -58,9 +58,9 @@ public class AccessTokenFilter extends AccessControlFilter {
         } catch (AuthenticationException e) {//认证失败，发送401状态并附带异常信息
             log.error(e.getMessage(),e);
             WebUtils.toHttp(servletResponse).sendError(HttpServletResponse.SC_UNAUTHORIZED,e.getMessage());
+            return false;
         }
 
-        return false;
     }
 
     JwtAuthenticationToken createToken(ServletRequest servletRequest, ServletResponse servletResponse){

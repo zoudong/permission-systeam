@@ -6,7 +6,7 @@ import org.apache.shiro.web.mgt.DefaultWebSubjectFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-@Component
+
 public class TokenSubjectFactory extends DefaultWebSubjectFactory {
     public Subject createSubject(SubjectContext context) {
         //不创建 session
