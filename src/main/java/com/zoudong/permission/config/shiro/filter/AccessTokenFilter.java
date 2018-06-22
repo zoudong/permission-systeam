@@ -32,18 +32,6 @@ public class AccessTokenFilter extends AccessControlFilter {
                 && getSubject(servletRequest, servletResponse).isAuthenticated()) {
             return true;
         }
-        //return false;
-       /* HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-        String auth = (String) httpServletRequest.getAttribute("Authorization");
-        System.out.println("auth encoded in base64 is " + getFromBASE64(auth));
-        if ((auth != null) && (auth.length() > 6)) {
-            auth = auth.substring(6, auth.length());
-            String decodedAuth = getFromBASE64(auth);
-            System.out.println("auth decoded from base64 is " + decodedAuth);
-            return true;
-        } else {
-            return false;
-        }*/
        return false;
     }
 
@@ -90,19 +78,5 @@ public class AccessTokenFilter extends AccessControlFilter {
 
         return jwtAuthenticationToken;
     }
-
-
-    private String getFromBASE64(String s) {
-        if (s == null)
-            return null;
-        BASE64Decoder decoder = new BASE64Decoder();
-        try {
-            byte[] b = decoder.decodeBuffer(s);
-            return new String(b);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
 
 }
