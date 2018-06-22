@@ -8,9 +8,14 @@ import com.zoudong.permission.param.user.query.QuerySysUserParam;
 import com.zoudong.permission.result.ResultUtil;
 import com.zoudong.permission.service.api.SysUserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.mgt.SubjectFactory;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Map;
 
@@ -35,7 +40,7 @@ public class SysUserController {
         throw new BusinessException("unAuth","token认证失败,请重新登录。");
     }
     @RequestMapping(value = "/permission/querySysUserByPage", method = RequestMethod.POST)
-    public Object test(@Valid @RequestBody QuerySysUserParam querySysUserParam)throws Exception {
+    public Object test(@Valid @RequestBody QuerySysUserParam querySysUserParam, HttpServletRequest request, HttpServletResponse response)throws Exception {
        /* try {*/
         log.info("开始分页查询全部用户:{}", querySysUserParam);
         PageInfo<SysUser> pageInfo = sysUserService.queryAllSysUser(querySysUserParam);
