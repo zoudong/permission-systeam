@@ -24,9 +24,11 @@ public class ExceptionHandlerAdvice {
                                                 Exception e) throws Exception {
 
         if (e instanceof UnauthenticatedException) {
-            ResultUtil.fillErrorMsg("token_error", "token错误");
-        } else if (e instanceof UnauthorizedException) {
-            ResultUtil.fillErrorMsg("permission_error", "用户无权限");
+            return ResultUtil.fillErrorMsg("token_error", "token错误");
+        }
+
+        if (e instanceof UnauthorizedException) {
+            return ResultUtil.fillErrorMsg("permission_error", "用户无权限");
         }
 
         if (e instanceof BusinessException) {

@@ -104,7 +104,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 
         //找角色关联
         Example example = new Example(SysUserRole.class);
-        example.createCriteria().andEqualTo("userId", sysUser.getId());
+        example.createCriteria().andEqualTo("userId", userInfo.getId());
         List<SysUserRole> sysUserRoleList = sysUserRoleMapper.selectByExample(example);
         if (sysUserRoleList.isEmpty()) {
             log.info("shiro Realm加载用户角色信息失败！");
