@@ -118,6 +118,14 @@ public class ShiroConfig {
         //mySessionManager.setGlobalSessionTimeout(3600000);
         mySessionManager.setSessionValidationSchedulerEnabled(false);
         mySessionManager.setSessionDAO(redisSessionDAO());
+
+
+        //干掉默认的为: JSESSIONID免得报There is no session with id 自定义一个不与容器冲突的SEESIONID
+        /*SimpleCookie simpleCookie= new SimpleCookie();
+        simpleCookie.setName("xxx");
+        mySessionManager.setSessionIdCookie(simpleCookie);
+        mySessionManager.setSessionIdCookieEnabled(true);*/
+
         return mySessionManager;
     }
 
