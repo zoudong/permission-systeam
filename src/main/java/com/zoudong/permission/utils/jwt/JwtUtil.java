@@ -1,12 +1,12 @@
 package com.zoudong.permission.utils.jwt;
 
 import com.alibaba.fastjson.JSONObject;
-import com.auth0.jwt.internal.org.apache.commons.codec.binary.Base64;
 import com.zoudong.permission.config.shiro.JwtAuthenticationToken;
 import com.zoudong.permission.constant.JwtConstant;
 import io.jsonwebtoken.*;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.web.util.WebUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;

@@ -47,7 +47,7 @@ public class SysUserController {
         throw new BusinessException("unAuth","token认证失败,请重新登录。");
     }
 
-    @RequiresRoles("1")
+    /*@RequiresRoles("1")*/
     @RequestMapping(value = "/permission/querySysUserByPage", method = RequestMethod.POST)
     public Object test(@Valid @RequestBody QuerySysUserParam querySysUserParam, HttpServletRequest request, HttpServletResponse response)throws Exception {
        /* try {*/

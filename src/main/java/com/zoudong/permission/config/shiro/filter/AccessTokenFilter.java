@@ -28,29 +28,49 @@ public class AccessTokenFilter extends AccessControlFilter {
 
     @Override
     protected boolean isAccessAllowed(ServletRequest servletRequest, ServletResponse servletResponse, Object o) throws Exception {
-        if (null != getSubject(servletRequest, servletResponse)
-                && getSubject(servletRequest, servletResponse).isAuthenticated()) {
-            return true;
-        }
-       return false;
-    }
 
-
-    @Override
-    protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
         JwtAuthenticationToken token = JwtUtil.createToken(servletRequest, servletResponse);
         try {
             Subject subject = getSubject(servletRequest, servletResponse);
             subject.login(token);//认证
-            return true;//认证成功，过滤器链继续
         } catch (AuthenticationException e) {//认证失败，发送401状态并附带异常信息
             log.error(e.getMessage(),e);
             WebUtils.toHttp(servletResponse).sendError(HttpServletResponse.SC_UNAUTHORIZED,e.getMessage());
             return false;
         }
 
+        if (null != getSubject(servletRequest, servletResponse)
+                && getSubject(servletRequest, servletResponse).isAuthenticated()&&permsCheck((String[]) o, getSubject(servletRequest, servletResponse))) {
+            return true;
+        }
+        WebUtils.toHttp(servletResponse).sendError(HttpServletResponse.SC_UNAUTHORIZED,"token认证未通过");
+        return false;
     }
 
+
+    @Override
+    protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
+        return false;
+
+    }
+
+
+    private boolean permsCheck(String[] mappedValue, Subject subject) {
+        String[] perms = mappedValue;
+        boolean isPermitted = true;
+        if (perms != null && perms.length > 0) {
+            if (perms.length == 1) {
+                if (!subject.isPermitted(perms[0])) {
+                    isPermitted = false;
+                }
+            } else {
+                if (!subject.isPermittedAll(perms)) {
+                    isPermitted = false;
+                }
+            }
+        }
+        return isPermitted;
+    }
 
 
 }

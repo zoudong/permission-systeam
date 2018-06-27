@@ -48,8 +48,9 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setFilters(filterMap);
 
 
+
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
-        //filterChainDefinitionMap.put("/permission/querySysUserByPage", "accessTokenFilter");
+        filterChainDefinitionMap.put("/permission/querySysUserByPage", "accessTokenFilter[1]");
         //accessTokenFilter代替默认的authc不然后DisabledSessionException
         filterChainDefinitionMap.put("/permission/logout", "logout");
         filterChainDefinitionMap.put("/permission/apiLogin", "anon");
