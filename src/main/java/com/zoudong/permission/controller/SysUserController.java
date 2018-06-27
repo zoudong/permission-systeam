@@ -82,6 +82,10 @@ public class SysUserController {
         ServletResponse servletResponse=(ServletResponse) response;
         JwtAuthenticationToken token = JwtUtil.createToken(servletRequest, servletResponse);
         try {
+            if (null != SecurityUtils.getSubject()
+                    && SecurityUtils.getSubject().isAuthenticated()) {
+                return ResultUtil.succes();
+            }
             Subject subject = SecurityUtils.getSubject();
             subject.login(token);//认证
         } catch (AuthenticationException e) {//认证失败，发送401状态并附带异常信息
@@ -91,7 +95,6 @@ public class SysUserController {
         log.info("结束代理检查第3方认证请求");
         return ResultUtil.succes();//认证成功，过滤器链继续
     }
-
 
 
 }
