@@ -1,16 +1,22 @@
 package com.zoudong.permission.utils.jwt;
 
+import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.internal.org.apache.commons.codec.binary.Base64;
+import com.zoudong.permission.config.shiro.JwtAuthenticationToken;
 import com.zoudong.permission.constant.JwtConstant;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.xml.bind.DatatypeConverter;
 import java.util.Date;
+
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Component
 public class JwtUtil {
@@ -68,6 +74,37 @@ public class JwtUtil {
                 .parseClaimsJws(jwt).getBody();
         return claims;
     }
+
+
+
+    public static JwtAuthenticationToken createToken(ServletRequest servletRequest, ServletResponse servletResponse){
+        String jwt = WebUtils.toHttp(servletRequest).getHeader(AUTHORIZATION);
+        String account=null;
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(DatatypeConverter.parseBase64Binary(JwtConstant.JWT_SECRET))
+                    .parseClaimsJws(jwt)
+                    .getBody();
+            account= JSONObject.parseObject(claims.getSubject()).getString("account");// 用户名
+        } catch (ExpiredJwtException e) {
+            throw new AuthenticationException("JWT 令牌过期:" + e.getMessage());
+        } catch (UnsupportedJwtException e) {
+            throw new AuthenticationException("JWT 令牌无效:" + e.getMessage());
+        } catch (MalformedJwtException e) {
+            throw new AuthenticationException("JWT 令牌格式错误:" + e.getMessage());
+        } catch (SignatureException e) {
+            throw new AuthenticationException("JWT 令牌签名无效:" + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            throw new AuthenticationException("JWT 令牌参数异常:" + e.getMessage());
+        } catch (Exception e) {
+            throw new AuthenticationException("JWT 令牌错误:" + e.getMessage());
+        }
+
+        JwtAuthenticationToken jwtAuthenticationToken=new JwtAuthenticationToken(account,jwt);
+
+        return jwtAuthenticationToken;
+    }
+
 
 
 }

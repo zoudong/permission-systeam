@@ -38,7 +38,7 @@ public class AccessTokenFilter extends AccessControlFilter {
 
     @Override
     protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
-        JwtAuthenticationToken token = createToken(servletRequest, servletResponse);
+        JwtAuthenticationToken token = JwtUtil.createToken(servletRequest, servletResponse);
         try {
             Subject subject = getSubject(servletRequest, servletResponse);
             subject.login(token);//认证
@@ -51,32 +51,6 @@ public class AccessTokenFilter extends AccessControlFilter {
 
     }
 
-    JwtAuthenticationToken createToken(ServletRequest servletRequest, ServletResponse servletResponse){
-        String jwt = WebUtils.toHttp(servletRequest).getHeader(AUTHORIZATION);
-        String account=null;
-        try {
-            Claims claims = Jwts.parser()
-                    .setSigningKey(DatatypeConverter.parseBase64Binary(JwtConstant.JWT_SECRET))
-                    .parseClaimsJws(jwt)
-                    .getBody();
-           account= JSONObject.parseObject(claims.getSubject()).getString("account");// 用户名
-        } catch (ExpiredJwtException e) {
-            throw new AuthenticationException("JWT 令牌过期:" + e.getMessage());
-        } catch (UnsupportedJwtException e) {
-            throw new AuthenticationException("JWT 令牌无效:" + e.getMessage());
-        } catch (MalformedJwtException e) {
-            throw new AuthenticationException("JWT 令牌格式错误:" + e.getMessage());
-        } catch (SignatureException e) {
-            throw new AuthenticationException("JWT 令牌签名无效:" + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            throw new AuthenticationException("JWT 令牌参数异常:" + e.getMessage());
-        } catch (Exception e) {
-            throw new AuthenticationException("JWT 令牌错误:" + e.getMessage());
-        }
 
-        JwtAuthenticationToken jwtAuthenticationToken=new JwtAuthenticationToken(account,jwt);
-
-        return jwtAuthenticationToken;
-    }
 
 }
