@@ -82,53 +82,6 @@ public class SysUserController {
     }
 
 
-    @RequestMapping(value = "/permission/proxyCheck", method = RequestMethod.POST)
-    public Object proxyCheck(HttpServletRequest request,HttpServletResponse response,String url)throws Exception {
-        log.info("开始代理检查第3方认证请求");
-        ServletRequest servletRequest=(ServletRequest)request;
-        ServletResponse servletResponse=(ServletResponse) response;
-        JwtAuthenticationToken token = JwtUtil.createToken(servletRequest, servletResponse);
-        try {
-            if (null != SecurityUtils.getSubject()
-                    && SecurityUtils.getSubject().isAuthenticated()) {
-                return ResultUtil.succes();
-            }
-            Subject subject = SecurityUtils.getSubject();
-            subject.login(token);//认证
-            Example example=new Example(SysResource.class);
-            example.createCriteria().andEqualTo("resourceCode",url);
-            List<SysResource> sysResourceList=sysResourceMapper.selectByExample(example);
-            if(sysResourceList.isEmpty()){
-                ResultUtil.fillErrorMsg(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),"无访问权限");
-            }
-
-            String[] perms = new String[0];
-            perms[0]=sysResourceList.get(0).getPermissionCode();
-
-            boolean isPermitted = true;
-            if (perms != null && perms.length > 0) {
-                if (perms.length == 1) {
-                    if (!subject.isPermitted(perms[0])) {
-                        isPermitted = false;
-                    }
-                } else {
-                    if (!subject.isPermittedAll(perms)) {
-                        isPermitted = false;
-                    }
-                }
-            }
-
-            if(isPermitted==true){
-                return ResultUtil.succes();//权限确认成功
-            }
-
-        } catch (AuthenticationException e) {//认证失败，发送401状态并附带异常信息
-            log.error(e.getMessage(),e);
-            return ResultUtil.fillErrorMsg(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),e.getMessage());
-        }
-        log.info("结束代理检查第3方认证请求");
-        return ResultUtil.succes();//认证成功，过滤器链继续
-    }
 
 
 }
