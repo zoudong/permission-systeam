@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 22/06/2018 16:16:17
+ Date: 28/06/2018 16:34:19
 */
 
 SET NAMES utf8mb4;
@@ -41,12 +41,13 @@ CREATE TABLE `sys_dept`  (
 DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单编号',
+  `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '菜单编号',
   `pcode` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单父编号',
   `pcodes` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '当前菜单的所有父菜单编号',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单名称',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '菜单名称',
   `icon` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单图标',
-  `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'url地址',
+  `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'url地址',
+  `permission_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '资源所需权限编码(挂靠的权限单选)',
   `num` int(65) NULL DEFAULT NULL COMMENT '菜单排序号',
   `levels` int(65) NULL DEFAULT NULL COMMENT '菜单层级',
   `ismenu` int(11) NULL DEFAULT NULL COMMENT '是否是菜单（1：是  0：不是）',
@@ -83,6 +84,28 @@ CREATE TABLE `sys_permission`  (
 INSERT INTO `sys_permission` VALUES (1, '1', '1', '1', '1', '2018-06-21 10:48:22', NULL, NULL, NULL, '');
 
 -- ----------------------------
+-- Table structure for sys_resource
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_resource`;
+CREATE TABLE `sys_resource`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `resource_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资源名称',
+  `resource_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资源编码',
+  `permission_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资源挂靠权限',
+  `version` bigint(11) NULL DEFAULT NULL COMMENT '版本（乐观锁保留字段）',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `status` int(65) NULL DEFAULT NULL COMMENT '资源状态 :  1:启用   0:不启用',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资源备注',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_resource
+-- ----------------------------
+INSERT INTO `sys_resource` VALUES (1, '/permission/querySysUserByPage', '查询用户信息', '2', NULL, '2018-06-28 15:56:55', '0000-00-00 00:00:00', 1, '查询用户信息测试');
+
+-- ----------------------------
 -- Table structure for sys_role
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role`;
@@ -96,12 +119,13 @@ CREATE TABLE `sys_role`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
 INSERT INTO `sys_role` VALUES (1, NULL, '1', '1', '1', 1, '2018-06-21 10:47:40', '0000-00-00 00:00:00');
+INSERT INTO `sys_role` VALUES (2, NULL, '2', '2', '2', 2, '2018-06-21 10:47:40', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for sys_role_permission
@@ -121,6 +145,7 @@ CREATE TABLE `sys_role_permission`  (
 -- Records of sys_role_permission
 -- ----------------------------
 INSERT INTO `sys_role_permission` VALUES (1, 1, 1, '2018-06-21 10:48:10', '0000-00-00 00:00:00', NULL);
+INSERT INTO `sys_role_permission` VALUES (2, 2, 1, '2018-06-21 10:48:10', '0000-00-00 00:00:00', NULL);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -143,12 +168,13 @@ CREATE TABLE `sys_user`  (
   `version` bigint(11) NULL DEFAULT NULL COMMENT '乐观锁版本号',
   `user_type` int(255) NULL DEFAULT NULL COMMENT '用户类型',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户主表、子表暂无' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户主表、子表暂无' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES (1, '123', '123', '123', '123', '2018-06-20 14:15:44', 1, '123', '123', 123, 0, '2018-06-20 14:15:55', '2018-06-20 14:15:58', NULL, 0);
+INSERT INTO `sys_user` VALUES (2, '456', '456', '456', '456', '2018-06-20 14:15:44', 1, '456', '456', 123, 0, '2018-06-20 14:15:55', '2018-06-20 14:15:58', NULL, 0);
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -168,5 +194,6 @@ CREATE TABLE `sys_user_role`  (
 -- Records of sys_user_role
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES (1, 1, 1, '2018-06-21 10:47:53', '2018-06-21 10:47:55', NULL);
+INSERT INTO `sys_user_role` VALUES (2, 2, 2, '2018-06-21 10:47:53', '2018-06-21 10:47:55', NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
