@@ -59,6 +59,9 @@ public class SysUserServiceImpl implements SysUserService {
             log.info("shiro Realm获取用户信息失败！");
             throw new UnauthorizedException();
         }
+        if(!userInfo.getPassword().equals(userInfo.getPassword())){
+            throw new UnauthorizedException();
+        }
         JSONObject jo = new JSONObject();
         jo.put("userId", userInfo.getId());
         jo.put("account", userInfo.getAccount());
