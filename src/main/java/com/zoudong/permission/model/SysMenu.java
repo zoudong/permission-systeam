@@ -42,6 +42,12 @@ public class SysMenu {
     private String url;
 
     /**
+     * 资源所需权限编码(挂靠的权限单选)
+     */
+    @Column(name = "permission_code")
+    private String permissionCode;
+
+    /**
      * 菜单排序号
      */
     private Integer num;
@@ -212,6 +218,24 @@ public class SysMenu {
      */
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    /**
+     * 获取资源所需权限编码(挂靠的权限单选)
+     *
+     * @return permission_code - 资源所需权限编码(挂靠的权限单选)
+     */
+    public String getPermissionCode() {
+        return permissionCode;
+    }
+
+    /**
+     * 设置资源所需权限编码(挂靠的权限单选)
+     *
+     * @param permissionCode 资源所需权限编码(挂靠的权限单选)
+     */
+    public void setPermissionCode(String permissionCode) {
+        this.permissionCode = permissionCode;
     }
 
     /**

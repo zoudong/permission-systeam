@@ -2,6 +2,9 @@ package com.zoudong.permission.config.shiro;
 
 import com.zoudong.permission.advice.ExceptionHandlerAdvice;
 import com.zoudong.permission.config.shiro.filter.AccessTokenFilter;
+import com.zoudong.permission.mapper.SysResourceMapper;
+import com.zoudong.permission.mapper.SysRolePermissionMapper;
+import com.zoudong.permission.model.SysResource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
@@ -15,6 +18,7 @@ import org.apache.shiro.web.servlet.SimpleCookie;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
 import org.crazycake.shiro.RedisSessionDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,10 +26,15 @@ import org.apache.shiro.mgt.SecurityManager;
 
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 @Slf4j
 @Configuration
 public class ShiroConfig {
+    @Autowired
+    private SysResourceMapper sysResourceMapper;
+
+
     @Value("${spring.redis.host}")
     private String host;
     @Value("${spring.redis.port}")
@@ -47,10 +56,15 @@ public class ShiroConfig {
         filterMap.put("accessTokenFilter", new AccessTokenFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
 
-
-
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
-        filterChainDefinitionMap.put("/permission/querySysUserByPage", "accessTokenFilter[1]");
+        List<SysResource> sysResourceList=sysResourceMapper.selectAll();
+
+
+         for(SysResource sysResource:sysResourceList) {
+             //filterChainDefinitionMap.put("/permission/querySysUserByPage", "accessTokenFilter[1]");
+             filterChainDefinitionMap.put(sysResource.getResourceCode(), "accessTokenFilter["+sysResource.getPermissionCode()+"]");
+         }
+
         //accessTokenFilter代替默认的authc不然后DisabledSessionException
         filterChainDefinitionMap.put("/permission/logout", "logout");
         filterChainDefinitionMap.put("/permission/apiLogin", "anon");

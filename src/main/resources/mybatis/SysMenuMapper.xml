@@ -12,6 +12,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
     <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="permission_code" jdbcType="VARCHAR" property="permissionCode" />
     <result column="num" jdbcType="INTEGER" property="num" />
     <result column="levels" jdbcType="INTEGER" property="levels" />
     <result column="ismenu" jdbcType="INTEGER" property="ismenu" />
@@ -26,7 +27,7 @@
     <!--
       WARNING - @mbg.generated
     -->
-    id, code, pcode, pcodes, name, icon, url, num, levels, ismenu, description, status, 
-    isopen, version, create_time, update_time
+    id, code, pcode, pcodes, name, icon, url, permission_code, num, levels, ismenu, description, 
+    status, isopen, version, create_time, update_time
   </sql>
 </mapper>
