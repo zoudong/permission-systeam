@@ -3,6 +3,8 @@ package com.zoudong.permission.controller;
 import com.github.pagehelper.PageInfo;
 import com.zoudong.permission.config.shiro.JwtAuthenticationToken;
 import com.zoudong.permission.exception.BusinessException;
+import com.zoudong.permission.mapper.SysResourceMapper;
+import com.zoudong.permission.model.SysResource;
 import com.zoudong.permission.model.SysUser;
 import com.zoudong.permission.param.user.login.SysUserLoginParam;
 import com.zoudong.permission.param.user.query.QuerySysUserParam;
@@ -18,12 +20,14 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,6 +40,9 @@ import java.util.Map;
 public class SysUserController {
     @Autowired
     private SysUserService sysUserService;
+
+    @Autowired
+    private SysResourceMapper sysResourceMapper;
 
     /**
      * 未登录，shiro应重定向到登录界面，此处返回未登录状态信息由前端控制跳转页面
@@ -76,7 +83,7 @@ public class SysUserController {
 
 
     @RequestMapping(value = "/permission/proxyCheck", method = RequestMethod.POST)
-    public Object proxyCheck(HttpServletRequest request,HttpServletResponse response)throws Exception {
+    public Object proxyCheck(HttpServletRequest request,HttpServletResponse response,String url)throws Exception {
         log.info("开始代理检查第3方认证请求");
         ServletRequest servletRequest=(ServletRequest)request;
         ServletResponse servletResponse=(ServletResponse) response;
@@ -88,9 +95,36 @@ public class SysUserController {
             }
             Subject subject = SecurityUtils.getSubject();
             subject.login(token);//认证
+            Example example=new Example(SysResource.class);
+            example.createCriteria().andEqualTo("resourceCode",url);
+            List<SysResource> sysResourceList=sysResourceMapper.selectByExample(example);
+            if(sysResourceList.isEmpty()){
+                ResultUtil.fillErrorMsg(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),"无访问权限");
+            }
+
+            String[] perms = new String[0];
+            perms[0]=sysResourceList.get(0).getPermissionCode();
+
+            boolean isPermitted = true;
+            if (perms != null && perms.length > 0) {
+                if (perms.length == 1) {
+                    if (!subject.isPermitted(perms[0])) {
+                        isPermitted = false;
+                    }
+                } else {
+                    if (!subject.isPermittedAll(perms)) {
+                        isPermitted = false;
+                    }
+                }
+            }
+
+            if(isPermitted==true){
+                return ResultUtil.succes();//权限确认成功
+            }
+
         } catch (AuthenticationException e) {//认证失败，发送401状态并附带异常信息
             log.error(e.getMessage(),e);
-            ResultUtil.fillErrorMsg(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),e.getMessage());
+            return ResultUtil.fillErrorMsg(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),e.getMessage());
         }
         log.info("结束代理检查第3方认证请求");
         return ResultUtil.succes();//认证成功，过滤器链继续
