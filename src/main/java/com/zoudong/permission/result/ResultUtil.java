@@ -7,7 +7,7 @@ import com.zoudong.permission.constant.ResultCode;
  * @description class
  * @date 2018/6/14 17:28
  */
-public class ResultUtil {
+public class ResultUtil<T> {
     /**
      * 成功
      * @return
@@ -29,8 +29,8 @@ public class ResultUtil {
      * 成功带数据
      * @return
      */
-    public static BaseResult fillSuccesData(Object data) {
-       BaseResult baseResult=new BaseResult();
+    public static <T>BaseResult fillSuccesData(T data) {
+       BaseResult<T> baseResult=new BaseResult<T>();
        baseResult.setCode(ResultCode.succes.getCode());
        baseResult.setMsg(ResultCode.succes.getMsg());
        baseResult.setData(data);
@@ -51,8 +51,8 @@ public class ResultUtil {
      * 失败带自定义错误码和数据
      * @return
      */
-    public static BaseResult fillErrorMsgData(String code,String msg,Object data) {
-        BaseResult baseResult=new BaseResult();
+    public static <T>BaseResult fillErrorMsgData(String code,String msg,T data) {
+        BaseResult<T> baseResult=new BaseResult<T>();
         baseResult.setCode(code);
         baseResult.setMsg(msg);
         baseResult.setData(data);
