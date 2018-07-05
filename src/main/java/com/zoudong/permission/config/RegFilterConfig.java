@@ -1,6 +1,7 @@
 package com.zoudong.permission.config;
 
 import com.zoudong.permission.config.shiro.filter.AccessTokenFilter;
+import com.zoudong.permission.config.shiro.filter.GetAuthorizationFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,11 +13,12 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class RegFilterConfig {
-/*    @Bean
+    @Bean
     public FilterRegistrationBean myFilter() {
         FilterRegistrationBean myFilter = new FilterRegistrationBean();
         myFilter.addUrlPatterns("/*");
-        myFilter.setFilter(new AccessTokenFilter());
+        myFilter.setFilter(new GetAuthorizationFilter());
+        myFilter.setName("GetAuthorizationFilter");
         return myFilter;
-    }*/
+    }
 }

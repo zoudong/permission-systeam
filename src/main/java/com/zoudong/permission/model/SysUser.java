@@ -1,6 +1,10 @@
 package com.zoudong.permission.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.zoudong.permission.config.shiro.ShiroThreadLocal;
 import org.crazycake.shiro.AuthCachePrincipal;
+import org.springframework.data.redis.cache.RedisCacheKey;
 
 import java.util.Date;
 import java.util.List;
@@ -377,8 +381,10 @@ public class SysUser implements AuthCachePrincipal{
         this.userType = userType;
     }
 
+    @JsonIgnore
     @Override
     public String getAuthCacheKey() {
-        return UUID.randomUUID().toString();
+        //从当前线程里面取AUTHORIZATION来查询缓存一个无状态token一个主体缓存
+        return ShiroThreadLocal.AUTHORIZATIONKEY.get();
     }
 }
