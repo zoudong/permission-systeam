@@ -2,13 +2,18 @@ package com.zoudong.permission.config.shiro.filter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zoudong.permission.config.shiro.JwtAuthenticationToken;
+import com.zoudong.permission.config.shiro.MySessionManager;
 import com.zoudong.permission.constant.JwtConstant;
+import com.zoudong.permission.utils.SpringUtils;
 import com.zoudong.permission.utils.jwt.JwtUtil;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.ThreadContext;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.filter.authz.AuthorizationFilter;
 import org.apache.shiro.web.util.WebUtils;
