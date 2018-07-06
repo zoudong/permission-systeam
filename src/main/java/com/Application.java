@@ -17,6 +17,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * 主启动类
  * 扫描mybatis mapper org的换成tk的包
  */
+@EnableDiscoveryClient
+@EnableFeignClients
 @EnableAsync
 @EnableWebMvc
 @EnableScheduling
@@ -25,8 +27,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan(basePackages = {"com.zoudong.permission"})
 @SpringBootApplication
 @EnableAutoConfiguration
-@EnableDiscoveryClient
-@EnableFeignClients
 public class Application {
     public static void main(String[] args) throws Exception {
         SpringApplication springApplication = new SpringApplication(Application.class);

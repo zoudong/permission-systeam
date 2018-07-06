@@ -1,31 +1,23 @@
 package com.zoudong.permission.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.zoudong.permission.config.shiro.JwtAuthenticationToken;
 import com.zoudong.permission.exception.BusinessException;
 import com.zoudong.permission.mapper.SysResourceMapper;
-import com.zoudong.permission.model.SysResource;
 import com.zoudong.permission.model.SysUser;
 import com.zoudong.permission.param.user.login.SysUserLoginParam;
 import com.zoudong.permission.param.user.query.QuerySysUserParam;
-import com.zoudong.permission.result.BaseResult;
-import com.zoudong.permission.result.ResultUtil;
+import com.zoudong.permission.result.base.BaseResult;
+import com.zoudong.permission.result.user.SysUserVO;
 import com.zoudong.permission.service.api.SysUserService;
-import com.zoudong.permission.utils.jwt.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.mgt.SubjectFactory;
-import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.util.WebUtils;
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import static com.zoudong.permission.result.ResultUtil.fillSuccesData;
+import static com.zoudong.permission.result.base.ResultUtil.fillSuccesData;
 
 /**
  * @author zd
@@ -53,12 +45,14 @@ public class SysUserController {
 
     /*@RequiresRoles("1")*/
     @RequestMapping(value = "/permission/querySysUserByPage", method = RequestMethod.POST)
-    public  BaseResult<PageInfo<SysUser>> test(@Valid @RequestBody QuerySysUserParam querySysUserParam, HttpServletRequest request, HttpServletResponse response)throws Exception {
+    public  BaseResult<PageInfo<SysUserVO>> test(@Valid @RequestBody QuerySysUserParam querySysUserParam, HttpServletRequest request, HttpServletResponse response)throws Exception {
        /* try {*/
         log.info("开始分页查询全部用户:{}", querySysUserParam);
         PageInfo<SysUser> pageInfo = sysUserService.queryAllSysUser(querySysUserParam);
-        log.info("结束分页查询全部用户:{}", pageInfo);
-        return fillSuccesData(pageInfo);
+        PageInfo<SysUserVO> pageInfoVO=new PageInfo<>();
+        BeanUtils.copyProperties(pageInfoVO,pageInfo);
+        log.info("结束分页查询全部用户:{}", pageInfoVO);
+        return fillSuccesData(pageInfoVO);
        /* } catch (BusinessException e) {
             log.info("业务异常test:{}", e.getMessage());
             e.printStackTrace();

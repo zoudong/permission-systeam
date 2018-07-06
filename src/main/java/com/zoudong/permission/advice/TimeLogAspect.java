@@ -1,6 +1,6 @@
 package com.zoudong.permission.advice;
 
-import com.zoudong.permission.result.BaseResult;
+import com.zoudong.permission.result.base.BaseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

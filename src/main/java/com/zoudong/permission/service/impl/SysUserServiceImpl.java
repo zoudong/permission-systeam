@@ -7,6 +7,7 @@ import com.zoudong.permission.config.shiro.JwtAuthenticationToken;
 import com.zoudong.permission.constant.JwtConstant;
 import com.zoudong.permission.exception.BusinessException;
 import com.zoudong.permission.mapper.SysUserMapper;
+import com.zoudong.permission.model.SysRole;
 import com.zoudong.permission.model.SysUser;
 import com.zoudong.permission.param.user.login.SysUserLoginParam;
 import com.zoudong.permission.param.user.query.QuerySysUserParam;
@@ -19,6 +20,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**

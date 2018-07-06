@@ -1,7 +1,7 @@
 package com.zoudong.permission.advice;
 
 import com.zoudong.permission.exception.BusinessException;
-import com.zoudong.permission.result.ResultUtil;
+import com.zoudong.permission.result.base.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
