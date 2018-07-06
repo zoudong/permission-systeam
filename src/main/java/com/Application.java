@@ -1,5 +1,7 @@
 package com;
 
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import tk.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -23,6 +25,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan(basePackages = {"com.zoudong.permission"})
 @SpringBootApplication
 @EnableAutoConfiguration
+@EnableDiscoveryClient
+@EnableFeignClients
 public class Application {
     public static void main(String[] args) throws Exception {
         SpringApplication springApplication = new SpringApplication(Application.class);

@@ -1,14 +1,11 @@
 package com.zoudong.permission.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.zoudong.permission.config.shiro.ShiroThreadLocal;
 import org.crazycake.shiro.AuthCachePrincipal;
-import org.springframework.data.redis.cache.RedisCacheKey;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 import javax.persistence.*;
 
 @Table(name = "sys_user")

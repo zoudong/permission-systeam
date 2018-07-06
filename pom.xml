@@ -63,6 +63,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
+            <version>1.4.5.RELEASE</version>
+        </dependency>
+
+        <dependency>
             <groupId>tk.mybatis</groupId>
             <artifactId>mapper-spring-boot-starter</artifactId>
             <version>${tk.mybatis.version}</version>
@@ -149,6 +155,13 @@
         <profile>
             <id>local</id>
             <properties>
+
+
+                <eureka.ip>192.168.1.30</eureka.ip>
+                <eureka.port>8889</eureka.port>
+                <client.ip>192.168.1.30</client.ip>
+
+
                 <datasource.url>jdbc:mysql://127.0.0.1:3306/permission?useUnicode=true&amp;characterEncoding=UTF-8&amp;allowMultiQueries=true&amp;zeroDateTimeBehavior=convertToNull&amp;serverTimezone=UTC&amp;useSSL=false</datasource.url>
                 <datasource.username>root</datasource.username>
                 <datasource.password>123456</datasource.password>
