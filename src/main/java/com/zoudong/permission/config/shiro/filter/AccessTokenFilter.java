@@ -18,14 +18,14 @@ public class AccessTokenFilter extends AccessControlFilter {
 
     @Override
     protected boolean isAccessAllowed(ServletRequest servletRequest, ServletResponse servletResponse, Object o) throws Exception {
-
-        JwtAuthenticationToken token = JwtUtil.createToken(servletRequest, servletResponse);
         try {
+            JwtAuthenticationToken token = JwtUtil.createToken(servletRequest, servletResponse);
             Subject subject = getSubject(servletRequest, servletResponse);
             subject.login(token);//认证
         } catch (AuthenticationException e) {//认证失败，发送401状态并附带异常信息
             log.error(e.getMessage(), e);
             WebUtils.toHttp(servletResponse).sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+            //throw new BusinessException(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED),e.getMessage());
             return false;
         }
 

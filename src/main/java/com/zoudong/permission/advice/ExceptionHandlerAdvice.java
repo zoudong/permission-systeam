@@ -2,7 +2,9 @@ package com.zoudong.permission.advice;
 
 import com.zoudong.permission.exception.BusinessException;
 import com.zoudong.permission.result.base.ResultUtil;
+import feign.RetryableException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.validation.FieldError;
@@ -22,6 +24,9 @@ public class ExceptionHandlerAdvice {
     @ExceptionHandler(value = Exception.class)
     public Object ExceptionHandler(HttpServletRequest request,
                                                 Exception e) throws Exception {
+        if(e instanceof AuthenticationException){
+            return ResultUtil.fillErrorMsg("token_error", "token错误");
+        }
 
         if (e instanceof UnauthenticatedException) {
             return ResultUtil.fillErrorMsg("token_error", "token错误");
